@@ -1,0 +1,20 @@
+# Dependências do PHP (Composer instala isso)
+/vendor/
+
+# Arquivos de sistema e IDEs
+.DS_Store
+.idea/
+.vscode/
+
+# Ignorar o conteúdo da pasta storage, mas manter a estrutura de pastas
+/storage/downloads/*
+!/storage/downloads/.gitkeep
+
+/storage/temp/*
+!/storage/temp/.gitkeep
+
+/logs/*
+!/logs/.gitkeep
+
+# Ignorar arquivos de log soltos
+*.log
