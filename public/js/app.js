@@ -155,27 +155,37 @@ $(document).ready(function() {
                 html = '<tr><td colspan="3" class="text-center text-muted py-4">Nenhum download recente.</td></tr>';
             } else {
                 files.forEach(function(f) {
-                    html += `
-                        <tr>
-                            <td class="ps-4 text-white align-middle">
-                                <i class="fa-solid fa-video me-2 text-danger d-md-none"></i>
-                                ${f.name}
-                            </td>
-                            <td class="text-white-50 align-middle">${f.size}</td>
-                            <td class="text-end pe-4">
-                                <button onclick="window.playFile('${f.name}')" class="btn btn-sm btn-outline-info me-2" title="Assistir">
+                let displayName = f.title || f.name;
+
+                html += `
+                    <tr>
+                        <td class="ps-4 text-white align-middle name-col">
+                            <i class="fa-solid fa-video me-2 text-danger d-md-none"></i>
+                            ${displayName}
+                        </td>
+                        
+                        <td class="text-white-50 align-middle">
+                            ${f.size}
+                        </td>
+                        
+                        <td class="text-end pe-4 align-middle action-col">
+                            <div class="d-flex gap-2">
+                                <button onclick="window.playFile('${f.name}')" class="btn btn-sm btn-outline-info" title="Assistir">
                                     <i class="fa-solid fa-play"></i>
                                 </button>
-                                <a href="${f.link}" class="btn btn-sm btn-outline-light me-2" title="Baixar">
+
+                                <a href="${f.link}" class="btn btn-sm btn-outline-light" title="Baixar">
                                     <i class="fa-solid fa-download"></i>
                                 </a>
+
                                 <button onclick="window.deleteFile('${f.name}')" class="btn btn-sm btn-outline-danger" title="Excluir">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                            </td>
-                        </tr>
-                    `;
-                });
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
             }
             $('#downloads-list').html(html);
         });
