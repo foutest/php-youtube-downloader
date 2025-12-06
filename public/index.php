@@ -92,6 +92,19 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="playerModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="playerTitle">Tocando...</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0 bg-black text-center d-flex align-items-center justify-content-center" style="min-height: 300px;">
+                    <div id="player-container" class="w-100"></div>
+                </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row justify-content-center mt-5">
             <div class="col-lg-8">

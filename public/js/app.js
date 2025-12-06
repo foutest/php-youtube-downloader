@@ -163,6 +163,9 @@ $(document).ready(function() {
                             </td>
                             <td class="text-white-50 align-middle">${f.size}</td>
                             <td class="text-end pe-4">
+                                <button onclick="window.playFile('${f.name}')" class="btn btn-sm btn-outline-info me-2" title="Assistir">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
                                 <a href="${f.link}" class="btn btn-sm btn-outline-light me-2" title="Baixar">
                                     <i class="fa-solid fa-download"></i>
                                 </a>
@@ -191,4 +194,47 @@ $(document).ready(function() {
             }
         }, 'json');
     };
-});
+
+    // ... (depois da função deleteFile)
+
+    window.playFile = function(filename) {
+        let streamUrl = 'stream.php?file=' + encodeURIComponent(filename);
+        
+        // Detecta extensão
+        let ext = filename.split('.').pop().toLowerCase();
+        let playerHtml = '';
+
+        if(['mp3', 'm4a', 'wav'].includes(ext)) {
+            // Player de Áudio
+            playerHtml = `
+                <div class="p-5">
+                    <i class="fa-solid fa-music fa-4x text-info mb-4"></i>
+                    <audio controls autoplay class="w-100">
+                        <source src="${streamUrl}" type="audio/mp4">
+                        Navegador não suporta áudio.
+                    </audio>
+                </div>
+            `;
+        } else {
+            // Player de Vídeo
+            playerHtml = `
+                <video controls autoplay class="w-100" style="max-height: 70vh;">
+                    <source src="${streamUrl}" type="video/mp4">
+                    Navegador não suporta vídeo.
+                </video>
+            `;
+        }
+
+        // Injeta no HTML e abre o Modal
+        $('#player-container').html(playerHtml);
+        $('#playerTitle').text(filename);
+        
+        let myModal = new bootstrap.Modal(document.getElementById('playerModal'));
+        myModal.show();
+
+        // Para o som quando fechar o modal
+        $('#playerModal').on('hidden.bs.modal', function () {
+            $('#player-container').html('');
+        });
+    };
+}); // Fim do $(document).ready
