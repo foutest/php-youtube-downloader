@@ -5,7 +5,7 @@ body {
     background-color: #121212;
     color: #e0e0e0;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    padding-bottom: 80px; /* Espaço para scroll no mobile */
+    padding-bottom: 80px;
 }
 
 .navbar {
@@ -86,100 +86,71 @@ body {
 /* --- Utilitários --- */
 .hidden { display: none; }
 
+/* --- Colunas da Tabela (Desktop) --- */
+.action-col {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.name-col {
+    word-break: break-word;
+    min-width: 200px;
+}
+
 /* --- Ajustes Específicos para Mobile (Centralizado) --- */
 @media (max-width: 768px) {
-    /* Ajusta altura dos inputs para facilitar o toque */
     .btn, .form-control {
         min-height: 48px; 
     }
 
-    /* Esconde o cabeçalho da tabela */
     .table-responsive thead {
         display: none; 
     }
 
-    /* Transforma a linha da tabela em um CARD */
     .table-responsive tr {
         display: block;
         margin-bottom: 15px;
-        background-color: #1e1e1e; /* Cor do card */
+        background-color: #1e1e1e;
         border-radius: 12px;
         padding: 15px;
         border: 1px solid #333;
         box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
 
-    /* Configuração geral das células (td) no mobile */
     .table-responsive td {
         display: block;
-        text-align: center; /* <--- O PULO DO GATO: Centraliza tudo */
+        text-align: center; /* Centraliza tudo */
         padding: 5px 0;
         border: none;
-        padding-left: 0 !important; /* Remove padding lateral excessivo */
+        padding-left: 0 !important;
         padding-right: 0 !important;
     }
 
-    /* Ajuste específico para o Nome do Arquivo */
     .name-col {
         font-weight: 500;
         margin-bottom: 5px;
-        font-size: 1.1rem; /* Aumenta um pouco a fonte */
+        font-size: 1.1rem;
     }
 
-    /* Ajuste específico para a Coluna de Ações (Botões) */
+    /* Centraliza os botões */
     .action-col {
         width: 100% !important;
         margin-top: 15px;
         padding-top: 15px !important;
-        border-top: 1px solid #333; /* Linha divisória */
+        border-top: 1px solid #333;
         
         display: flex;
-        justify-content: center !important; /* <--- Centraliza os botões na tela */
+        justify-content: center !important;
         align-items: center;
     }
 
-    /* Garante que a div interna dos botões também centralize */
     .action-col .d-flex {
         width: 100%;
-        justify-content: center !important; /* <--- Centraliza o grupo de botões */
-        gap: 15px !important; /* Aumenta o espaço entre os botões */
+        justify-content: center !important;
+        gap: 15px !important;
     }
     
-    /* Aumenta um pouco os botões no celular para facilitar o toque */
     .action-col .btn {
         padding: 8px 20px;
-    }
-}
-
-/* --- Correções de Layout (Adicione no final do arquivo) --- */
-
-/* Coluna de Ações (Padrão Desktop) */
-.action-col {
-    width: 1%;          /* Ocupa o mínimo necessário */
-    white-space: nowrap; /* Não deixa quebrar linha */
-}
-
-/* Coluna de Nome (Para textos longos) */
-.name-col {
-    word-break: break-word; /* Quebra palavras longas se necessário */
-    min-width: 200px;       /* Garante um espaço mínimo */
-}
-
-/* --- Ajustes Específicos para Mobile --- */
-@media (max-width: 768px) {
-    /* Reseta a largura da coluna de ações no celular */
-    .action-col {
-        width: 100% !important; /* Ocupa a linha toda */
-        margin-top: 15px;
-        padding-top: 15px !important;
-        border-top: 1px solid #333; /* Linha separadora bonita */
-        display: flex;              /* Ativa Flexbox */
-        justify-content: flex-end;  /* Alinha botões à direita */
-    }
-
-    /* Ajuste fino para os botões ficarem alinhados */
-    .action-col .d-flex {
-        width: 100%;
-        justify-content: flex-end; /* Garante alinhamento à direita */
     }
 }

@@ -7,7 +7,6 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -92,6 +91,7 @@
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="playerModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content bg-dark text-white border-secondary">
@@ -102,6 +102,18 @@
                 <div class="modal-body p-0 bg-black text-center d-flex align-items-center justify-content-center" style="min-height: 300px;">
                     <div id="player-container" class="w-100"></div>
                 </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="featured-section" class="row justify-content-center mt-4 hidden">
+            <div class="col-lg-8">
+                <div class="card border-success shadow-lg mb-4" style="background-color: #1a2e1e;">
+                    <div class="card-header bg-success text-white fw-bold d-flex align-items-center">
+                        <i class="fa-solid fa-circle-check me-2"></i> Download Concluído!
+                    </div>
+                    <div class="card-body text-white" id="featured-content">
+                        </div>
                 </div>
             </div>
         </div>
@@ -131,7 +143,6 @@
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script src="js/app.js"></script>
 </body>
 </html>
