@@ -52,11 +52,33 @@ $(document).ready(function() {
                 $('#video-title').text(data.title);
                 $('#video-duration').text(data.duration);
                 
+                // Limpa e preenche o Select
                 let $select = $('#format-select');
                 $select.empty();
-                data.formats.forEach(fmt => {
-                    $select.append(`<option value="${fmt.format_id}">${fmt.label} - ${fmt.size}</option>`);
-                });
+                
+                // 1. Processa a caixa de VÍDEOS
+                if (data.formats.video && data.formats.video.length > 0) {
+                    // Cria um título "Vídeo" no dropdown
+                    let groupVideo = $('<optgroup label="Vídeo (MP4)">');
+                    
+                    data.formats.video.forEach(function(fmt) {
+                        groupVideo.append(`<option value="${fmt.id}">${fmt.label}</option>`);
+                    });
+                    
+                    $select.append(groupVideo);
+                }
+
+                // 2. Processa a caixa de ÁUDIOS
+                if (data.formats.audio && data.formats.audio.length > 0) {
+                    // Cria um título "Áudio" no dropdown
+                    let groupAudio = $('<optgroup label="Apenas Áudio">');
+                    
+                    data.formats.audio.forEach(function(fmt) {
+                        groupAudio.append(`<option value="${fmt.id}">${fmt.label}</option>`);
+                    });
+                    
+                    $select.append(groupAudio);
+                }
 
                 $('#preview-area').removeClass('hidden').hide().fadeIn();
             } else {

@@ -49,49 +49,49 @@ class YoutubeService
     }
 
     /**
-     * Filtra os milhares de formatos do YouTube para apenas os úteis.
+     * Filtra e organiza os formatos em categorias (Vídeo e Áudio)
      */
     private function filterFormats(array $formats): array
     {
-        $cleanFormats = [];
+        $videoFormats = [];
+        $audioFormats = [];
 
         foreach ($formats as $f) {
-            // Ignora formatos sem protocolo HTTP (m3u8, rtmp, etc são ruins para download direto)
             if (strpos($f['protocol'] ?? '', 'http') !== 0) continue;
-
-            // Formata o tamanho do arquivo (se existir)
-            $filesize = isset($f['filesize']) ? round($f['filesize'] / 1024 / 1024, 2) . ' MB' : 'N/A';
             
-            // Estrutura simplificada
-            $isVideo = $f['vcodec'] !== 'none';
-            $isAudio = $f['acodec'] !== 'none';
-
-            // Queremos:
-            // 1. Vídeo com áudio (best)
-            // 2. Áudio puro (mp3/m4a)
-            // 3. Ignoramos vídeo mudo (video only) para simplificar este tutorial
+            $filesize = isset($f['filesize']) ? round($f['filesize'] / 1024 / 1024, 1) . ' MB' : 'N/A';
+            $ext = $f['ext'];
             
-            if ($isVideo && $isAudio) {
-                $cleanFormats[] = [
-                    'format_id' => $f['format_id'],
-                    'label' => "Vídeo " . ($f['height'] ?? '??') . "p (" . $f['ext'] . ")",
-                    'type' => 'video',
-                    'ext' => $f['ext'],
-                    'size' => $filesize
+            $isAudioOnly = ($f['vcodec'] === 'none' && $f['acodec'] !== 'none');
+            $isVideo = ($f['vcodec'] !== 'none');
+
+            if ($isAudioOnly) {
+                $audioFormats[] = [
+                    'id' => $f['format_id'],
+                    'label' => "Áudio ({$ext}) - {$filesize}",
+                    'type' => 'audio'
                 ];
-            } elseif (!$isVideo && $isAudio) {
-                $cleanFormats[] = [
-                    'format_id' => $f['format_id'],
-                    'label' => "Áudio Apenas (" . $f['ext'] . ")",
-                    'type' => 'audio',
-                    'ext' => $f['ext'],
-                    'size' => $filesize
+            } 
+            elseif ($isVideo) {
+                if ($ext !== 'mp4') continue; 
+
+                $height = $f['height'] ?? 0;
+                
+                $videoFormats[] = [
+                    'id' => $f['format_id'],
+                    'label' => "{$height}p ({$ext}) - {$filesize}",
+                    'type' => 'video',
+                    'height' => $height
                 ];
             }
         }
-        
-        // Reordena: Melhor qualidade primeiro (opcional)
-        return array_reverse($cleanFormats);
+
+        usort($videoFormats, fn($a, $b) => $b['height'] <=> $a['height']);
+
+        return [
+            'video' => array_values($videoFormats),
+            'audio' => array_values($audioFormats)
+        ];
     }
 
     /**
