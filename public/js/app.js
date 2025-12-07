@@ -62,14 +62,16 @@ $(document).ready(function() {
         checkInterval = setInterval(function() {
             Api.checkProgress(id).done(function(res) {
                 const percent = res.percent;
-                Ui.updateProgress(percent);
+                
+                // PASSAMOS OS NOVOS DADOS AQUI:
+                Ui.updateProgress(percent, res.eta, res.elapsed);
 
                 if (res.status === 'completed' || percent >= 100) {
                     clearInterval(checkInterval);
                     Ui.finishProgressBar();
                     Ui.setDownloadState(false);
                     Ui.showToast('Download concluído!', 'success');
-                    refreshDownloads(true); // Recarrega com destaque
+                    refreshDownloads(true);
                 }
             });
         }, 1000);

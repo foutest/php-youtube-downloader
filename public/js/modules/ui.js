@@ -97,25 +97,48 @@ export const Ui = {
         }
     },
 
+    // ...
+    
     startProgressBar: () => {
         $('#preview-area').addClass('hidden');
         $('#progress-area').removeClass('hidden');
         $('#progress-bar').css('width', '0%').addClass('bg-danger').removeClass('bg-success');
+        
+        // Limpa ou cria a área de info de tempo
+        if ($('#progress-info').length === 0) {
+             $('.progress').after('<div id="progress-info" class="d-flex justify-content-between text-muted small mt-1"><span>Tempo: 00:00</span><span>Faltam: --:--</span></div>');
+        } else {
+             $('#progress-info').html('<span>Tempo: 00:00</span><span>Faltam: --:--</span>');
+        }
     },
 
-    updateProgress: (percent) => {
+    updateProgress: (percent, eta, elapsed) => {
         $('#progress-bar').css('width', percent + '%');
-        $('#progress-percent').text(percent + '%');
+        $('#progress-percent').text(Math.round(percent) + '%');
+        
+        // Atualiza os tempos
+        // Se eta ou elapsed vierem vazios, usamos placeholders
+        const etaText = eta || '--:--';
+        const elapsedText = elapsed || '00:00';
+        
+        $('#progress-info').html(`
+            <span><i class="fa-regular fa-clock me-1"></i> Decorrido: ${elapsedText}</span>
+            <span><i class="fa-solid fa-hourglass-half me-1"></i> Restante: ${etaText}</span>
+        `);
     },
 
     finishProgressBar: () => {
         $('#progress-bar').removeClass('bg-danger').addClass('bg-success');
         $('#progress-percent').text('Concluído!');
+        $('#progress-info').html('<span class="text-success fw-bold"><i class="fa-solid fa-check me-1"></i> Finalizado com sucesso!</span>');
+        
         setTimeout(() => {
             $('#progress-area').fadeOut();
             $('#url-input').val('');
         }, 3000);
     },
+    
+    // ...
 
     renderDownloads: (files, highlightFirst = false) => {
         $('#downloads-list').html('');
