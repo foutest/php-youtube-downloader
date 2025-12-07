@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YT Downloader Pro</title>
-    
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="../../../assets/css/hub-header.css" rel="stylesheet">
 </head>
 <body>
+    <header class="main-header">
+        <div class="logo"><a href="../../../index.html" style="text-decoration: none; color: inherit;">Samuel Dev Hub</a></div>
+    </header>
 
     <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container" style="z-index: 1055;"></div>
 
@@ -143,6 +147,6 @@
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>

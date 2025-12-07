@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Técnico - YT Downloader Pro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+
+    <style>
+        /* Painéis de Vidro */
+        .glass-panel {
+            background: rgba(18, 18, 26, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Tags de Tecnologia */
+        .tech-tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            margin: 0.2rem 0.5rem 0.2rem 0; /* Ajustado para não colar em telas pequenas */
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--neon-blue);
+        }
+
+        /* GRID RESPONSIVO (A Correção Principal) */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Padrão PC: 2 colunas lado a lado */
+            gap: 2rem;
+        }
+
+        /* Regra para Celular (Telas menores que 768px) */
+        @media (max-width: 768px) {
+            .details-grid {
+                grid-template-columns: 1fr; /* Celular: 1 coluna (uma embaixo da outra) */
+            }
+            
+            /* Ajuste extra para o padding não ficar gigante no celular */
+            .glass-panel {
+                padding: 1.5rem; 
+            }
+            
+            h1 {
+                font-size: 1.8rem !important; /* Diminui o título no celular */
+            }
+        }
+
+        /* Lista Roadmap */
+        .roadmap-list { list-style: none; }
+        .roadmap-list li { margin-bottom: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .roadmap-list input[type="checkbox"] { accent-color: var(--neon-green); }
+        .done { text-decoration: line-through; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo"><a href="../../../index.html" style="text-decoration: none; color: inherit;">Samuel Dev Hub</a></div>
+    </header>
+
+    <main style="max-width: 900px; margin: 4rem auto; padding: 0 1rem;">
+        
+        <div style="margin-bottom: 3rem;">
+            <a href="index.php" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">&larr; Voltar para o App</a>
+            <h1 style="font-size: 2.5rem; margin-top: 1rem;">Diário Técnico</h1>
+            <p style="color: var(--text-secondary);">Documentação de desenvolvimento do YT Downloader Pro</p>
+        </div>
+
+        <section class="glass-panel">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🛠️ Tecnologias & Ferramentas</h2>
+            <div>
+                <span class="tech-tag">HTML5 Semântico</span>
+                <span class="tech-tag">CSS3 (Variables/Flexbox)</span>
+                <span class="tech-tag">JavaScript (ES6+)</span>
+                <span class="tech-tag">PHP 8.0</span>
+                <span class="tech-tag">YouTube API (Fake/RapidAPI)</span>
+            </div>
+        </section>
+
+        <section class="glass-panel">
+            <h2 style="color: var(--text-primary); margin-bottom: 1rem;">🏗️ Arquitetura do Projeto</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8;">
+                O sistema utiliza uma arquitetura simples baseada em <strong>Client-Server</strong>.
+                O Frontend envia a URL do vídeo via AJAX (Fetch API) para o Backend em PHP. 
+                O PHP processa a requisição, valida a URL, conecta-se com a API externa para obter os links de download e retorna um JSON para o navegador renderizar os botões de qualidade (720p, 1080p).
+            </p>
+        </section>
+
+        <div class="details-grid">
+            
+            <section class="glass-panel">
+                <h3 style="color: var(--neon-blue); margin-bottom: 1rem;">⚠️ Dificuldades Encontradas</h3>
+                <ul style="color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
+                    <li>Manipular o retorno assíncrono do `fetch` corretamente.</li>
+                    <li>Estilizar componentes responsivos dentro do grid CSS.</li>
+                    <li>Entender como processar JSON no PHP.</li>
+                </ul>
+            </section>
+
+            <section class="glass-panel">
+                <h3 style="color: var(--neon-green); margin-bottom: 1rem;">🚀 Roadmap (Futuro)</h3>
+                <ul class="roadmap-list" style="color: var(--text-secondary);">
+                    <li class="done"><input type="checkbox" checked disabled> Criação do Layout Base</li>
+                    <li class="done"><input type="checkbox" checked disabled> Integração com JSON de Projetos</li>
+                    <li><input type="checkbox" disabled> Implementar backend PHP real</li>
+                    <li><input type="checkbox" disabled> Adicionar opção de baixar MP3</li>
+                </ul>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>Documentado por Samuel Victor Alventino Silva</p>
+    </footer>
+
+</body>
+</html>
