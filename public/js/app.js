@@ -23,7 +23,7 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     Ui.showPreview(response.data);
                 } else {
-                    Ui.showToast('Erro: ' + response.message, 'error');
+                    Ui.showToast('Erro: 1' + response.message, 'error');
                 }
             })
             .fail(function() {

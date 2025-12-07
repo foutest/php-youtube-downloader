@@ -15,32 +15,28 @@ class DownloadService
 
     public function startDownload(string $url, string $formatId): string
     {
-        // 1. Gera um ID único para este download
+        // 1. Gera um ID único
         $downloadId = uniqid('dl_');
         
-        // 2. Define onde salvar o vídeo e onde salvar o log de progresso
-        // %(title)s.%(ext)s é a sintaxe do yt-dlp para nomear o arquivo automaticamente
+        // 2. Define caminhos
         $outputTemplate = $this->storagePath . '/%(title)s.%(ext)s';
         $progressFile = $this->tempPath . '/' . $downloadId . '.log';
 
-        // 3. Monta o comando
-        // -f: formato
-        // -o: onde salvar
-        // >: redireciona a saída (texto) para o arquivo de log
-        // 2>&1: redireciona erros também para o log
-        // &: (E comercial no final) é o segredo do Linux para rodar em BACKGROUND
+        // 3. Monta o comando (COM A CORREÇÃO DE ÁUDIO)
+        // Adicionamos '--merge-output-format mp4' para garantir que a fusão
+        // de vídeo+áudio resulte sempre num arquivo .mp4 compatível.
         $command = sprintf(
-            'nohup yt-dlp -f %s -o "%s" %s > "%s" 2>&1 & echo $!',
+            'nohup yt-dlp -f %s --merge-output-format mp4 -o "%s" %s > "%s" 2>&1 & echo $!',
             escapeshellarg($formatId),
             $outputTemplate,
             escapeshellarg($url),
             $progressFile
         );
 
-        // 4. Executa o comando no terminal
+        // 4. Executa
         exec($command, $output);
 
-        // 5. Retorna o ID para o Frontend monitorar
+        // 5. Retorna ID
         return $downloadId;
     }
 

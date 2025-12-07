@@ -1,7 +1,7 @@
 // public/js/modules/ui.js
 
 export const Ui = {
-    // Notificações
+    // ... (As funções showToast e toggleLoading continuam iguais) ...
     showToast: (message, type = 'info') => {
         const bgClass = type === 'error' ? 'bg-danger' : 'bg-success';
         const toastHtml = `
@@ -19,7 +19,6 @@ export const Ui = {
         $toast.on('hidden.bs.toast', function () { $(this).remove(); });
     },
 
-    // Controle de estado de carregamento
     toggleLoading: (isLoading) => {
         if (isLoading) {
             $('#loading-spinner').removeClass('hidden');
@@ -31,7 +30,7 @@ export const Ui = {
         }
     },
 
-    // Exibir informações do vídeo e preencher select
+    // --- AQUI ESTÁ A MUDANÇA VISUAL ---
     showPreview: (data) => {
         $('#video-thumb').attr('src', data.thumbnail);
         $('#video-title').text(data.title);
@@ -40,18 +39,48 @@ export const Ui = {
         const $select = $('#format-select');
         $select.empty();
 
+        // 1. Grupo de VÍDEO (Com ícones e detalhes)
         if (data.formats.video && data.formats.video.length > 0) {
-            let groupVideo = $('<optgroup label="Vídeo (MP4)">');
+            let groupVideo = $('<optgroup label="🎥 Vídeo (MP4/WebM)">');
+            
             data.formats.video.forEach(fmt => {
-                groupVideo.append(`<option value="${fmt.id}">${fmt.label}</option>`);
+                // Lógica de Fusão Inteligente
+                let isMuted = fmt.acodec === 'none';
+                let audioIcon = isMuted ? '🔇' : '🔊';
+                
+                // TRUQUE: Se for mudo, o valor enviado será "ID+bestaudio"
+                // Se tiver áudio, manda só o "ID"
+                let valueToSend = isMuted ? `${fmt.id}+bestaudio` : fmt.id;
+
+                // Agora que garantimos o áudio, podemos mostrar um ícone positivo
+                // ou avisar que será processado. Vamos deixar o ícone de som normal!
+                // (Opcional: Se quiser ser transparente, use um ícone de "ferramenta" 🛠️)
+                let displayIcon = '🔊'; 
+                
+                let hdStatus = (fmt.height >= 720) ? 'ᴴᴰ' : '';
+                
+                let parts = [
+                    `${fmt.resolution} (${fmt.ext})`,
+                    hdStatus,
+                    (fmt.fps > 30 ? `${fmt.fps}fps` : ''),
+                    displayIcon, // Mostramos som porque vamos corrigir!
+                    fmt.size
+                ];
+                
+                let label = parts.filter(p => p !== '').join(' • ');
+                
+                groupVideo.append(`<option value="${valueToSend}">${label}</option>`);
             });
             $select.append(groupVideo);
         }
 
+        // 2. Grupo de ÁUDIO
         if (data.formats.audio && data.formats.audio.length > 0) {
-            let groupAudio = $('<optgroup label="Apenas Áudio">');
+            let groupAudio = $('<optgroup label="🎧 Áudio Puro">');
+            
             data.formats.audio.forEach(fmt => {
-                groupAudio.append(`<option value="${fmt.id}">${fmt.label}</option>`);
+                let label = `${fmt.ext.toUpperCase()} • ${fmt.bitrate}kbps • ${fmt.size}`;
+                groupAudio.append(`<option value="${fmt.id}">${label}</option>`);
             });
             $select.append(groupAudio);
         }
@@ -59,7 +88,7 @@ export const Ui = {
         $('#preview-area').removeClass('hidden').hide().fadeIn();
     },
 
-    // Botão de Download
+    // ... (O resto do arquivo: setDownloadState, startProgressBar, etc. continua igual) ...
     setDownloadState: (isDownloading) => {
         if (isDownloading) {
             $('#btn-download').prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Iniciando...');
@@ -68,7 +97,6 @@ export const Ui = {
         }
     },
 
-    // Barra de Progresso
     startProgressBar: () => {
         $('#preview-area').addClass('hidden');
         $('#progress-area').removeClass('hidden');
@@ -89,7 +117,6 @@ export const Ui = {
         }, 3000);
     },
 
-    // Renderizar Lista de Downloads (Com destaque e mobile support)
     renderDownloads: (files, highlightFirst = false) => {
         $('#downloads-list').html('');
         $('#featured-section').addClass('hidden');
@@ -99,7 +126,6 @@ export const Ui = {
             return;
         }
 
-        // Destaque (Featured)
         if (highlightFirst && files.length > 0) {
             const newest = files[0];
             const featuredHtml = `
@@ -122,7 +148,6 @@ export const Ui = {
             $('#featured-section').removeClass('hidden').hide().fadeIn();
         }
 
-        // Tabela
         const tableFiles = highlightFirst ? files.slice(1) : files;
         
         if (tableFiles.length > 0) {
@@ -156,7 +181,6 @@ export const Ui = {
         }
     },
 
-    // Modal Player
     openPlayer: (filename) => {
         const streamUrl = 'stream.php?file=' + encodeURIComponent(filename);
         const ext = filename.split('.').pop().toLowerCase();
