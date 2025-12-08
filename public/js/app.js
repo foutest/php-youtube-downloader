@@ -28,7 +28,7 @@ $(document).ready(function() {
             })
             .fail(function() {
                 Ui.toggleLoading(false);
-                Ui.showToast('Erro de conexão.', 'error');
+                Ui.showToast('Erro die conexão.', 'error');
             });
     });
 
