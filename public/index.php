@@ -42,6 +42,9 @@
                             <button class="btn btn-yt rounded-end" type="submit" id="btn-search">
                                 <i class="fa-solid fa-magnifying-glass me-2"></i> Buscar
                             </button>
+                            <button id="btn-clear" class="btn-clear hidden">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
                     </form>
                     <div id="loading-spinner" class="text-center mt-3 hidden">

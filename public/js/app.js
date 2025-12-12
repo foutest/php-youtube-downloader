@@ -32,6 +32,26 @@ $(document).ready(function() {
             });
     });
 
+    //Botao limpar
+    $('#btn-clear').on('click', function () {
+        $('#url-input').val('');
+        $('#preview-area').addClass('hidden').hide();
+        $('#progress-area').addClass('hidden').hide();
+        $('#btn-clear').addClass('hidden');
+    
+        // Reseta botão de download
+        Ui.setDownloadState(false);
+    
+        // Opcional: limpa barra de progresso
+        $('#progress-bar').css('width', '0%');
+        $('#progress-percent').text('');
+        $('#progress-info').html('');
+    
+        // Foca no input
+        $('#url-input').focus();
+    });
+    
+
     // Iniciar Download
     $('#btn-download').on('click', function() {
         const url = $('#url-input').val();

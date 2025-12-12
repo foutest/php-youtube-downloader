@@ -65,16 +65,16 @@ class DownloadService
 
         $content = file_get_contents($logFile);
         
-        // MUDANÇA 2: Lemos o tempo fixo de dentro do arquivo
+        // --- Tempo decorrido ---
         $elapsed = 0;
         if (preg_match('/\[METADATA_START\]: (\d+)/', $content, $matches)) {
             $startTime = (int)$matches[1];
             $elapsed = time() - $startTime;
         } else {
-            // Fallback caso não ache a tag (usa o tempo de modificação, que reseta, mas evita erro)
             $elapsed = time() - filemtime($logFile);
         }
-        
+
+        // --- Verifica se já terminou ---
         if (strpos($content, '[PROCESS_COMPLETED]') !== false) {
             return [
                 'status' => 'completed', 
@@ -84,39 +84,44 @@ class DownloadService
             ];
         }
 
-        $eta = '--:--';
-        if (preg_match_all('/ETA\s+([\d:]{2,8})/', $content, $matches)) {
-            $eta = end($matches[1]);
-        }
-
+        // --- Percentual ---
         $percent = 0;
         $isMerge = (strpos($content, '[METADATA_MERGE]: 1') !== false);
-
         if (preg_match_all('/(\d{1,3}\.\d)%/', $content, $matches)) {
             $rawPercent = (float)end($matches[1]);
-            
             if (!$isMerge) {
                 $percent = $rawPercent;
             } else {
                 $filesCount = substr_count($content, '[download] Destination:');
-                
                 if ($filesCount <= 1) {
                     $percent = $rawPercent * 0.85;
                 } else {
                     $percent = 85 + ($rawPercent * 0.10);
                 }
-
                 if ($percent >= 95 || strpos($content, '[Merger]') !== false) {
                     $percent = 99;
                 }
             }
         }
 
+        $percent = round($percent, 1);
+
+        // --- Calcula ETA baseado no tempo decorrido e percentual ---
+        if ($percent > 0 && $percent < 100) {
+            $etaSeconds = round($elapsed * (100 - $percent) / $percent);
+            $eta = gmdate("i:s", $etaSeconds);
+        } else {
+            $eta = '--:--';
+        }
+
+        // --- Tempo decorrido formatado ---
+        $elapsedFormatted = gmdate("i:s", $elapsed);
+
         return [
-            'status' => 'downloading', 
-            'percent' => round($percent, 1),
+            'status' => 'downloading',
+            'percent' => $percent,
             'eta' => $eta,
-            'elapsed' => gmdate("i:s", $elapsed)
+            'elapsed' => $elapsedFormatted
         ];
     }
 }

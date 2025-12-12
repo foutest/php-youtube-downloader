@@ -22,6 +22,7 @@ export const Ui = {
     toggleLoading: (isLoading) => {
         if (isLoading) {
             $('#loading-spinner').removeClass('hidden');
+            $('#btn-clear').removeClass('hidden');
             $('#btn-search').prop('disabled', true);
         } else {
             $('#loading-spinner').addClass('hidden');
