@@ -22,7 +22,6 @@ export const Ui = {
     toggleLoading: (isLoading) => {
         if (isLoading) {
             $('#loading-spinner').removeClass('hidden');
-            $('#preview-area, #progress-area, #featured-section').addClass('hidden');
             $('#btn-search').prop('disabled', true);
         } else {
             $('#loading-spinner').addClass('hidden');
@@ -91,7 +90,7 @@ export const Ui = {
     // ... (O resto do arquivo: setDownloadState, startProgressBar, etc. continua igual) ...
     setDownloadState: (isDownloading) => {
         if (isDownloading) {
-            $('#btn-download').prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Iniciando...');
+            $('#btn-download').prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Download em andamento...');
         } else {
             $('#btn-download').prop('disabled', false).html('<i class="fa-solid fa-download me-2"></i> Baixar Agora');
         }
@@ -100,8 +99,8 @@ export const Ui = {
     // ...
     
     startProgressBar: () => {
-        $('#preview-area').addClass('hidden');
-        $('#progress-area').removeClass('hidden');
+        $('#progress-area').removeClass('hidden').fadeIn();
+        $('#featured-section').addClass('hidden');
         $('#progress-bar').css('width', '0%').addClass('bg-danger').removeClass('bg-success');
         
         // Limpa ou cria a área de info de tempo
@@ -134,8 +133,7 @@ export const Ui = {
         
         setTimeout(() => {
             $('#progress-area').fadeOut();
-            $('#url-input').val('');
-        }, 3000);
+        }, 1000);
     },
     
     // ...
