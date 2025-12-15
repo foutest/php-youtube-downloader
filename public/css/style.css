@@ -1,135 +1,133 @@
-/* public/css/style.css */
-
 /* --- Base Dark Theme --- */
 body {
-    background-color: #121212;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    padding-bottom: 80px;
+    background-color: #121212; /* Fundo escuro para a página */
+    color: #e0e0e0;            /* Cor do texto em cinza claro para contraste com o fundo escuro */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Define a família de fontes */
+    padding-bottom: 80px;      /* Espaço adicional na parte inferior da página */
 }
 
 .navbar {
-    background-color: #1e1e1e !important;
-    border-bottom: 1px solid #333;
+    background-color: #1e1e1e !important; /* Cor de fundo da navbar escura */
+    border-bottom: 1px solid #333;        /* Borda inferior da navbar com cor escura */
 }
 
 .brand-icon {
-    color: #ff0000;
-    font-size: 1.5rem;
-    margin-right: 8px;
+    color: #ff0000; /* Cor vermelha para o ícone da marca */
+    font-size: 1.5rem; /* Tamanho da fonte do ícone */
+    margin-right: 8px;  /* Espaço à direita do ícone */
 }
 
 /* --- Componentes --- */
 .card-custom {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    margin-bottom: 20px;
+    background-color: #1e1e1e; /* Fundo escuro para o cartão */
+    border: 1px solid #333;     /* Cor da borda do cartão */
+    border-radius: 12px;        /* Bordas arredondadas */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Sombra suave ao redor do cartão */
+    margin-bottom: 20px;        /* Espaçamento inferior entre os cartões */
 }
 
 .form-control-dark {
-    background-color: #121212;
-    border: 1px solid #333;
-    color: #fff;
-    padding: 12px;
+    background-color: #121212; /* Fundo escuro para campos de formulário */
+    border: 1px solid #333;    /* Cor da borda do campo */
+    color: #fff;               /* Cor do texto do campo */
+    padding: 12px;             /* Espaçamento interno */
 }
 
 .form-control-dark:focus {
-    background-color: #000;
-    border-color: #ff0000;
-    color: #fff;
-    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
+    background-color: #000; /* Foco com fundo ainda mais escuro */
+    border-color: #ff0000;   /* Cor da borda vermelha quando em foco */
+    color: #fff;             /* Cor do texto ao focar */
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25); /* Efeito de sombra ao focar */
 }
 
 .btn-yt {
-    background-color: #cc0000;
-    color: white;
-    font-weight: 600;
-    border: none;
-    padding: 10px 25px;
-    transition: all 0.3s;
+    background-color: #cc0000; /* Cor de fundo vermelha para os botões */
+    color: white;               /* Cor do texto branco */
+    font-weight: 600;           /* Peso da fonte em negrito */
+    border: none;               /* Sem borda */
+    padding: 10px 25px;         /* Espaçamento interno do botão */
+    transition: all 0.3s;       /* Transição suave para todos os efeitos */
 }
 
 .btn-yt:hover {
-    background-color: #ff0000;
-    transform: translateY(-2px);
-    color: white;
+    background-color: #ff0000; /* Cor do fundo ao passar o mouse (vermelho intenso) */
+    transform: translateY(-2px); /* Levanta o botão levemente ao passar o mouse */
+    color: white;               /* Garante que o texto permaneça branco */
 }
 
 /* --- Thumbnail --- */
 .thumb-container {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    position: relative; /* Permite posicionamento absoluto dentro do container */
+    border-radius: 8px; /* Bordas arredondadas */
+    overflow: hidden;   /* Esconde qualquer conteúdo que ultrapasse os limites */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5); /* Sombra suave ao redor da miniatura */
 }
 
 .thumb-img {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: 100%;       /* Faz a imagem ocupar toda a largura do container */
+    height: auto;      /* Mantém a proporção da altura */
+    display: block;    /* Remove qualquer espaço abaixo da imagem */
 }
 
 .duration-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    position: absolute;   /* Coloca a duração em uma posição fixa dentro do container */
+    bottom: 8px;          /* Posiciona 8px do fundo */
+    right: 8px;           /* Posiciona 8px da direita */
+    background: rgba(0, 0, 0, 0.8); /* Fundo escuro com opacidade */
+    color: white;         /* Cor do texto branco */
+    padding: 2px 6px;     /* Padding pequeno para o badge */
+    border-radius: 4px;   /* Bordas arredondadas */
+    font-size: 0.8rem;    /* Tamanho de fonte reduzido */
+    font-weight: bold;    /* Deixa o texto em negrito */
 }
 
 /* --- Utilitários --- */
-.hidden { display: none; }
-
+.hidden { display: none; /* Classe utilitária para ocultar elementos */}
+ 
 /* --- Colunas da Tabela (Desktop) --- */
 .action-col {
-    width: 1%;
-    white-space: nowrap;
+    width: 1%;            /* Limita a largura da coluna de ações */
+    white-space: nowrap;  /* Evita quebra de linha no conteúdo da coluna */
 }
 
 .name-col {
-    word-break: break-word;
-    min-width: 200px;
+    word-break: break-word; /* Permite que o texto quebre em palavras longas */
+    min-width: 200px;       /* Define uma largura mínima para a coluna de nome */
 }
 
 /* --- Ajustes Específicos para Mobile (Centralizado) --- */
 @media (max-width: 768px) {
     .btn, .form-control {
-        min-height: 48px; 
+        min-height: 48px;  /* Aumenta a altura mínima de botões e campos no mobile */
     }
 
     .table-responsive thead {
-        display: none; 
+        display: none; /* Esconde o cabeçalho da tabela em telas pequenas */
     }
 
     .table-responsive tr {
-        display: block;
+        display: block;    /* Cada linha da tabela é tratada como bloco */
         margin-bottom: 15px;
-        background-color: #1e1e1e;
-        border-radius: 12px;
-        padding: 15px;
-        border: 1px solid #333;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        background-color: #1e1e1e; /* Fundo escuro para as linhas */
+        border-radius: 12px;         /* Bordas arredondadas */
+        padding: 15px;               /* Padding para maior espaçamento */
+        border: 1px solid #333;     /* Borda escura */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Sombra suave */
     }
 
     .table-responsive td {
-        display: block;
-        text-align: center; /* Centraliza tudo */
-        padding: 5px 0;
-        border: none;
+        display: block;    /* Faz as células se comportarem como blocos */
+        text-align: center; /* Centraliza o texto nas células */
+        padding: 5px 0;     /* Padding reduzido nas células */
+        border: none;       /* Remove bordas */
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 
     .name-col {
-        font-weight: 500;
+        font-weight: 500;   /* Fonte um pouco mais leve */
         margin-bottom: 5px;
-        font-size: 1.1rem;
+        font-size: 1.1rem;   /* Aumenta o tamanho da fonte */
     }
 
     /* Centraliza os botões */
@@ -139,38 +137,38 @@ body {
         padding-top: 15px !important;
         border-top: 1px solid #333;
         
-        display: flex;
-        justify-content: center !important;
+        display: flex;                 /* Flexbox para distribuir os botões */
+        justify-content: center !important; /* Centraliza os botões */
         align-items: center;
     }
 
     .action-col .d-flex {
-        width: 100%;
-        justify-content: center !important;
-        gap: 15px !important;
+        width: 100%;                  /* Garante que a flexbox ocupe 100% da largura */
+        justify-content: center !important; /* Centraliza o conteúdo */
+        gap: 15px !important;         /* Espaçamento entre os botões */
     }
     
     .action-col .btn {
-        padding: 8px 20px;
+        padding: 8px 20px;  /* Ajusta o padding dos botões */
     }
 }
 
 /* Botão Limpar estilizado para tema dark */
 .btn-clear {
-    background-color: #1e1e1e; /* mesmo fundo das cards */
-    border: 1px solid #333;    /* mesma cor das bordas */
-    color: #bbb;               /* texto cinza claro */
-    padding: 10px 16px;
-    border-radius: 8px;
-    margin-left: 8px;
-    font-weight: 500;
-    transition: all 0.25s ease;
+    background-color: #1e1e1e; /* Fundo igual ao das cards */
+    border: 1px solid #333;    /* Borda escura */
+    color: #bbb;               /* Texto cinza claro */
+    padding: 10px 16px;        /* Padding do botão */
+    border-radius: 8px;        /* Bordas arredondadas */
+    margin-left: 8px;          /* Espaçamento à esquerda */
+    font-weight: 500;          /* Fonte mais leve */
+    transition: all 0.25s ease; /* Transição suave */
 }
 
 /* Hover (vermelho suave, seguindo padrão .btn-yt) */
 .btn-clear:hover {
-    background-color: #ff0000;
-    border-color: #ff0000;
-    color: #fff;
-    transform: translateY(-2px);
+    background-color: #ff0000; /* Fundo vermelho quando o botão é pressionado */
+    border-color: #ff0000;     /* Borda vermelha */
+    color: #fff;               /* Texto branco */
+    transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
 }

@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="dark">
 <head>
+    <!-- Configurações básicas de página -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YT Downloader Pro</title>
+
+    <!-- Ícone da página -->
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome para ícones -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
     <link href="css/style.css" rel="stylesheet">
     <link href="../../../assets/css/hub-header.css" rel="stylesheet">
 </head>
 <body>
+
+    <!-- Header principal -->
     <header class="main-header">
-        <div class="logo"><a href="../../../index.html" style="text-decoration: none; color: inherit;">Samuel Dev Hub</a></div>
+        <div class="logo">
+            <a href="../../../index.html" style="text-decoration: none; color: inherit;">Samuel Dev Hub</a>
+        </div>
     </header>
 
+    <!-- Container de toasts para notificações -->
     <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container" style="z-index: 1055;"></div>
 
+    <!-- Navbar superior -->
     <nav class="navbar navbar-expand-lg navbar-dark mb-5">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
@@ -27,7 +42,8 @@
     </nav>
 
     <div class="container">
-        
+
+        <!-- Área de input de link -->
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="text-center mb-4">
@@ -35,18 +51,26 @@
                     <p class="text-muted">Cole o link do YouTube abaixo para começar</p>
                 </div>
 
+                <!-- Card de input -->
                 <div class="card-custom p-4">
                     <form id="search-form">
                         <div class="input-group">
+                            <!-- Input URL -->
                             <input type="text" id="url-input" class="form-control form-control-dark rounded-start" placeholder="https://www.youtube.com/watch?v=..." required>
+
+                            <!-- Botão Buscar -->
                             <button class="btn btn-yt rounded-end" type="submit" id="btn-search">
                                 <i class="fa-solid fa-magnifying-glass me-2"></i> Buscar
                             </button>
+
+                            <!-- Botão limpar input (inicialmente oculto) -->
                             <button id="btn-clear" class="btn-clear hidden">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
                     </form>
+
+                    <!-- Spinner de carregamento (oculto inicialmente) -->
                     <div id="loading-spinner" class="text-center mt-3 hidden">
                         <div class="spinner-border text-danger" role="status">
                             <span class="visually-hidden">Carregando...</span>
@@ -57,25 +81,32 @@
             </div>
         </div>
 
+        <!-- Área de preview do vídeo (oculta inicialmente) -->
         <div id="preview-area" class="row justify-content-center hidden">
             <div class="col-lg-8">
                 <div class="card-custom p-0 overflow-hidden">
                     <div class="row g-0">
+
+                        <!-- Thumbnail do vídeo -->
                         <div class="col-md-5 bg-black d-flex align-items-center justify-content-center p-3">
                             <div class="thumb-container">
                                 <img src="" id="video-thumb" class="thumb-img" alt="Thumbnail">
                                 <span class="duration-badge" id="video-duration">00:00</span>
                             </div>
                         </div>
+
+                        <!-- Informações e download -->
                         <div class="col-md-7 p-4">
                             <h5 class="card-title fw-bold mb-3" id="video-title">Título do Vídeo</h5>
                             
+                            <!-- Seleção de formato -->
                             <div class="mb-4">
                                 <label class="text-muted small mb-1">Escolha o formato:</label>
                                 <select class="form-select form-select-sm bg-dark text-white border-secondary" id="format-select">
-                                    </select>
+                                </select>
                             </div>
 
+                            <!-- Botão de download -->
                             <button id="btn-download" class="btn btn-yt w-100">
                                 <i class="fa-solid fa-download me-2"></i> Baixar Agora
                             </button>
@@ -85,6 +116,7 @@
             </div>
         </div>
 
+        <!-- Área de progresso do download (oculta inicialmente) -->
         <div id="progress-area" class="row justify-content-center mt-3 hidden">
             <div class="col-lg-8">
                 <div class="card-custom p-4">
@@ -99,20 +131,22 @@
             </div>
         </div>
 
+        <!-- Modal de player de vídeo -->
         <div class="modal fade" id="playerModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content bg-dark text-white border-secondary">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title" id="playerTitle">Tocando...</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-0 bg-black text-center d-flex align-items-center justify-content-center" style="min-height: 300px;">
-                    <div id="player-container" class="w-100"></div>
-                </div>
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title" id="playerTitle">Tocando...</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0 bg-black text-center d-flex align-items-center justify-content-center" style="min-height: 300px;">
+                        <div id="player-container" class="w-100"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Seção de download concluído (oculta inicialmente) -->
         <div id="featured-section" class="row justify-content-center mt-4 hidden">
             <div class="col-lg-8">
                 <div class="card border-success shadow-lg mb-4" style="background-color: #1a2e1e;">
@@ -120,11 +154,12 @@
                         <i class="fa-solid fa-circle-check me-2"></i> Download Concluído!
                     </div>
                     <div class="card-body text-white" id="featured-content">
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Tabela de downloads recentes -->
         <div class="row justify-content-center mt-5">
             <div class="col-lg-8">
                 <h5 class="mb-3 text-muted"><i class="fa-solid fa-folder-open me-2"></i>Downloads Recentes</h5>
@@ -139,7 +174,7 @@
                                 </tr>
                             </thead>
                             <tbody id="downloads-list">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -148,8 +183,10 @@
 
     </div>
 
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/app.js"></script>
+
 </body>
 </html>
