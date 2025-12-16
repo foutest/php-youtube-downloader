@@ -1,17 +1,16 @@
 <?php
-// Script para servir arquivos protegidos
 
-// Obtém o nome do arquivo da URL (com segurança básica, caso não esteja presente, será uma string vazia)
 $file = $_GET['file'] ?? '';
 
-// SEGURANÇA BÁSICA: Remove qualquer tentativa de manipulação de diretórios, prevenindo Directory Traversal
-$file = basename($file);  // basename() remove qualquer caminho e deixa apenas o nome do arquivo
+// basename() remove qualquer caminho e deixa apenas o nome do arquivo
+$file = basename($file);  
 
 // Define o caminho completo para o arquivo a ser servido
 $path = __DIR__ . '/../storage/downloads/' . $file;
 
 // Verifica se o nome do arquivo não está vazio e se o arquivo realmente existe no servidor
 if (!empty($file) && file_exists($path)) {
+    
     // Define cabeçalhos HTTP que instruem o navegador a tratar a resposta como um download de arquivo
 
     // Cabeçalho que descreve que é uma transferência de arquivo

@@ -150,7 +150,7 @@ export const Ui = {
         // Esconde área após 1s
         setTimeout(() => {
             $('#progress-area').fadeOut();
-        }, 10000);
+        }, 1000);
     },
 
     // --- Renderiza lista de downloads ---

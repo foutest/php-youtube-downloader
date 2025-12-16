@@ -36,9 +36,9 @@ class DownloadService
         $downloadId = uniqid('dl_');
         
         // Caminhos para onde os arquivos de saída e logs serão salvos
-        $outputTemplate = $this->stagingPath . '/%(title)s.%(ext)s'; // Padrão de nome do arquivo
-        $progressFile = $this->tempPath . '/' . $downloadId . '.log'; // Caminho para o arquivo de log
-        $finalDir = $this->storagePath . '/'; // Diretório final para o arquivo baixado
+        $outputTemplate = $this->stagingPath . '/%(title)s.%(ext)s'; 
+        $progressFile = $this->tempPath . '/' . $downloadId . '.log'; 
+        $finalDir = $this->storagePath . '/'; 
 
         // Define se o arquivo precisa ser mesclado
         $isMerge = strpos($formatId, '+') !== false ? '1' : '0';
@@ -104,10 +104,10 @@ class DownloadService
         // --- Verifica se o download foi concluído ---
         if (strpos($content, '[PROCESS_COMPLETED]') !== false) {
             return [
-                'status' => 'completed', // Status é 'completed' se o processo terminou
-                'percent' => 100, // Percentual é 100%
-                'eta' => '00:00', // ETA (tempo restante) é 0
-                'elapsed' => gmdate("i:s", $elapsed) // Tempo decorrido formatado
+                'status' => 'completed',
+                'percent' => 100,
+                'eta' => '00:00', 
+                'elapsed' => gmdate("i:s", $elapsed) 
             ];
         }
 
@@ -146,11 +146,12 @@ class DownloadService
         // --- Tempo decorrido formatado ---
         $elapsedFormatted = gmdate("i:s", $elapsed); // Formata o tempo decorrido como mm:ss
 
+        // O download está em andamento retornando informacoes
         return [
-            'status' => 'downloading', // O download está em andamento
-            'percent' => $percent, // Percentual do download
-            'eta' => $eta, // Tempo restante estimado
-            'elapsed' => $elapsedFormatted // Tempo decorrido formatado
+            'status' => 'downloading', 
+            'percent' => $percent, 
+            'eta' => $eta, 
+            'elapsed' => $elapsedFormatted 
         ];
     }
 }

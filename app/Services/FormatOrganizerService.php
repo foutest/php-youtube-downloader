@@ -1,14 +1,11 @@
 <?php
 
-// Define o namespace da classe (organização do projeto)
 namespace App\Services;
 
 // Serviço responsável por organizar formatos de áudio e vídeo
 class FormatOrganizerService
 {
-    /**
-     * Organiza os formatos recebidos separando em vídeo e áudio
-     */
+    //Organiza os formatos recebidos separando em vídeo e áudio
     public function organize(array $formats): array
     {
         // Arrays que armazenarão os formatos finais
@@ -18,32 +15,15 @@ class FormatOrganizerService
         // Percorre todos os formatos recebidos
         foreach ($formats as $f) {
 
-            /**
-             * Verifica se o protocolo começa com "http"
-             * strpos retorna 0 quando encontra no início da string
-             * Se não começar com http, ignora o formato
-             */
+            //Verifica se o protocolo começa com "http"
             if (strpos($f['protocol'] ?? '', 'http') !== 0) continue;
 
-            /**
-             * Define o tamanho do arquivo:
-             * - Usa filesize se existir
-             * - Caso contrário, usa filesize_approx
-             * - Se nenhum existir, usa 0
-             */
+            //Define o tamanho do arquivo:
             $size = $this->formatSize(
                 $f['filesize'] ?? $f['filesize_approx'] ?? 0
             );
 
-            // =======================
-            // LÓGICA PARA ÁUDIO
-            // =======================
-
-            /**
-             * Se não houver codec de vídeo (vcodec = none)
-             * e houver codec de áudio (acodec diferente de none),
-             * então o formato é apenas áudio
-             */
+            //Identificndo Audio
             if (($f['vcodec'] ?? 'none') === 'none'
                 && ($f['acodec'] ?? 'none') !== 'none') {
 
@@ -57,14 +37,7 @@ class FormatOrganizerService
                 ];
             }
 
-            // =======================
-            // LÓGICA PARA VÍDEO
-            // =======================
-
-            /**
-             * Se houver codec de vídeo,
-             * então o formato é considerado vídeo
-             */
+            //Identificando video
             elseif (($f['vcodec'] ?? 'none') !== 'none') {
 
                 // Aceita apenas vídeos mp4 ou webm
@@ -90,14 +63,10 @@ class FormatOrganizerService
             }
         }
 
-        /**
-         * Ordena os vídeos pela resolução (do maior para o menor)
-         */
+        //Ordena os vídeos pela resolução (do maior para o menor)
         usort($videoFormats, fn($a, $b) => $b['height'] <=> $a['height']);
 
-        /**
-         * Ordena os áudios pelo bitrate (do maior para o menor)
-         */
+        //rdena os áudios pelo bitrate (do maior para o menor)
         usort($audioFormats, fn($a, $b) => $b['bitrate'] <=> $a['bitrate']);
 
         // Retorna os formatos organizados
@@ -107,9 +76,7 @@ class FormatOrganizerService
         ];
     }
 
-    /**
-     * Converte bytes para um formato legível (KB, MB, GB...)
-     */
+    //Converte bytes para um formato legível (KB, MB, GB...)
     private function formatSize($bytes)
     {
         // Se não houver tamanho válido

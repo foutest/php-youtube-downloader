@@ -28,12 +28,11 @@ class YoutubeService
 
         // Cria o objeto Process para executar o comando do yt-dlp
         $process = new Process($command);
-        $process->setTimeout(60); // Define um tempo limite de 60 segundos para a execução do comando
+        $process->setTimeout(60);
         $process->run(); // Executa o comando
 
         // Verifica se o processo foi bem-sucedido
         if (!$process->isSuccessful()) {
-            // Se não foi bem-sucedido, lança uma exceção com a mensagem de erro
             throw new \Exception('Erro ao processar vídeo: ' . $process->getErrorOutput());
         }
 
@@ -42,12 +41,9 @@ class YoutubeService
 
         // Verifica se a decodificação do JSON foi bem-sucedida
         if (!$data) {
-            // Se houver falha na decodificação, lança uma exceção
             throw new \Exception('Erro ao decodificar JSON');
         }
 
-        // Chama o serviço FormatOrganizerService para organizar os formatos de vídeo extraídos
-        // O yt-dlp retorna vários formatos de vídeo e áudio que precisam ser organizados
         $cleanFormats = $this->organizer->organize($data['formats'] ?? []);
 
         // Organiza e retorna as informações do vídeo

@@ -97,7 +97,7 @@ $(document).ready(function() {
                     refreshDownloads(true);  // Atualiza a lista de downloads
                 }
             });
-        }, 1000);  // Checa o progresso a cada 1 segundo
+        }, 100);  // Checa o progresso a cada 1 segundo
     }
 
     // Função que atualiza a lista de downloads

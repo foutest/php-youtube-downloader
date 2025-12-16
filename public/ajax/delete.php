@@ -1,12 +1,9 @@
 <?php
-// Carrega as dependências do Composer (caso haja alguma necessária)
 require __DIR__ . '/../../vendor/autoload.php';
 
-// Define o cabeçalho da resposta como JSON
 header('Content-Type: application/json');
 
 try {
-    // Verifica se a requisição é do tipo POST, caso contrário lança uma exceção
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Método inválido'); // Lança uma exceção se não for POST
     }
@@ -14,7 +11,6 @@ try {
     // Obtém o nome do arquivo do POST, caso não exista, atribui uma string vazia
     $file = $_POST['file'] ?? '';
     
-    // SEGURANÇA: Impede que o usuário envie caminhos como "../../../etc/passwd"
     // basename() elimina qualquer caminho adicional, retornando apenas o nome do arquivo
     $filename = basename($file);
     

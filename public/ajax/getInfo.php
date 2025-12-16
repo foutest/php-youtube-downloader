@@ -1,12 +1,9 @@
 <?php
 
-// Carrega as dependências do Composer
 require __DIR__ . '/../../vendor/autoload.php';
 
-// Importa a classe YoutubeService
 use App\Services\YoutubeService;
 
-// Define o cabeçalho de resposta como JSON
 header('Content-Type: application/json');
 
 try {
