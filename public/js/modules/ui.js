@@ -1,9 +1,12 @@
 // public/js/modules/ui.js
 
 export const Ui = {
-    // ... (As funções showToast e toggleLoading continuam iguais) ...
+    // --- Mostrar uma notificação (toast) ---
     showToast: (message, type = 'info') => {
+        // Define a cor de fundo do toast
         const bgClass = type === 'error' ? 'bg-danger' : 'bg-success';
+
+        // HTML do toast
         const toastHtml = `
             <div class="toast align-items-center text-white ${bgClass} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
@@ -12,58 +15,63 @@ export const Ui = {
                 </div>
             </div>
         `;
+
+        // Converte o HTML em elemento jQuery
         const $toast = $(toastHtml);
+
+        // Adiciona o toast no container
         $('#toast-container').append($toast);
+
+        // Inicializa e exibe o toast usando Bootstrap
         const toast = new bootstrap.Toast($toast[0]);
         toast.show();
+
+        // Remove o toast do DOM após ser escondido
         $toast.on('hidden.bs.toast', function () { $(this).remove(); });
     },
 
+    // --- Mostrar ou esconder o spinner de carregamento ---
     toggleLoading: (isLoading) => {
         if (isLoading) {
-            $('#loading-spinner').removeClass('hidden');
-            $('#btn-clear').removeClass('hidden');
-            $('#btn-search').prop('disabled', true);
+            $('#loading-spinner').removeClass('hidden'); // mostra spinner
+            $('#btn-clear').removeClass('hidden');       // mostra botão limpar
+            $('#btn-search').prop('disabled', true);     // desabilita pesquisa
         } else {
-            $('#loading-spinner').addClass('hidden');
-            $('#btn-search').prop('disabled', false);
+            $('#loading-spinner').addClass('hidden');    // esconde spinner
+            $('#btn-search').prop('disabled', false);    // habilita pesquisa
         }
     },
 
-    // --- AQUI ESTÁ A MUDANÇA VISUAL ---
+    // --- Exibir a pré-visualização do vídeo ---
     showPreview: (data) => {
+        // Atualiza thumbnail, título e duração
         $('#video-thumb').attr('src', data.thumbnail);
         $('#video-title').text(data.title);
         $('#video-duration').text(data.duration);
         
         const $select = $('#format-select');
-        $select.empty();
+        $select.empty(); // limpa opções anteriores
 
-        // 1. Grupo de VÍDEO (Com ícones e detalhes)
+        // --- Grupo de vídeo ---
         if (data.formats.video && data.formats.video.length > 0) {
             let groupVideo = $('<optgroup label="🎥 Vídeo (MP4/WebM)">');
             
             data.formats.video.forEach(fmt => {
-                // Lógica de Fusão Inteligente
-                let isMuted = fmt.acodec === 'none';
-                let audioIcon = isMuted ? '🔇' : '🔊';
+                let isMuted = fmt.acodec === 'none';          // verifica se está mudo
+                let audioIcon = isMuted ? '🔇' : '🔊';       // ícone de áudio
                 
-                // TRUQUE: Se for mudo, o valor enviado será "ID+bestaudio"
-                // Se tiver áudio, manda só o "ID"
+                // Define valor do select: se mudo, adiciona "+bestaudio"
                 let valueToSend = isMuted ? `${fmt.id}+bestaudio` : fmt.id;
 
-                // Agora que garantimos o áudio, podemos mostrar um ícone positivo
-                // ou avisar que será processado. Vamos deixar o ícone de som normal!
-                // (Opcional: Se quiser ser transparente, use um ícone de "ferramenta" 🛠️)
-                let displayIcon = '🔊'; 
-                
-                let hdStatus = (fmt.height >= 720) ? 'ᴴᴰ' : '';
-                
+                let displayIcon = '🔊'; // ícone de som (pode personalizar)
+                let hdStatus = (fmt.height >= 720) ? 'ᴴᴰ' : ''; // marca HD
+
+                // Monta label do option
                 let parts = [
                     `${fmt.resolution} (${fmt.ext})`,
                     hdStatus,
                     (fmt.fps > 30 ? `${fmt.fps}fps` : ''),
-                    displayIcon, // Mostramos som porque vamos corrigir!
+                    displayIcon,
                     fmt.size
                 ];
                 
@@ -71,10 +79,11 @@ export const Ui = {
                 
                 groupVideo.append(`<option value="${valueToSend}">${label}</option>`);
             });
+
             $select.append(groupVideo);
         }
 
-        // 2. Grupo de ÁUDIO
+        // --- Grupo de áudio ---
         if (data.formats.audio && data.formats.audio.length > 0) {
             let groupAudio = $('<optgroup label="🎧 Áudio Puro">');
             
@@ -82,42 +91,47 @@ export const Ui = {
                 let label = `${fmt.ext.toUpperCase()} • ${fmt.bitrate}kbps • ${fmt.size}`;
                 groupAudio.append(`<option value="${fmt.id}">${label}</option>`);
             });
+
             $select.append(groupAudio);
         }
 
+        // Exibe a área de preview com animação
         $('#preview-area').removeClass('hidden').hide().fadeIn();
     },
 
-    // ... (O resto do arquivo: setDownloadState, startProgressBar, etc. continua igual) ...
+    // --- Atualiza estado do botão de download ---
     setDownloadState: (isDownloading) => {
         if (isDownloading) {
-            $('#btn-download').prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i> Download em andamento...');
+            $('#btn-download')
+                .prop('disabled', true)
+                .html('<i class="fa-solid fa-spinner fa-spin"></i> Download em andamento...');
         } else {
-            $('#btn-download').prop('disabled', false).html('<i class="fa-solid fa-download me-2"></i> Baixar Agora');
+            $('#btn-download')
+                .prop('disabled', false)
+                .html('<i class="fa-solid fa-download me-2"></i> Baixar Agora');
         }
     },
 
-    // ...
-    
+    // --- Inicia a barra de progresso ---
     startProgressBar: () => {
-        $('#progress-area').removeClass('hidden').fadeIn();
-        $('#featured-section').addClass('hidden');
+        $('#progress-area').removeClass('hidden').fadeIn(); // mostra barra
+        $('#featured-section').addClass('hidden');           // esconde seção
         $('#progress-bar').css('width', '0%').addClass('bg-danger').removeClass('bg-success');
-        
-        // Limpa ou cria a área de info de tempo
+
+        // Cria ou limpa área de informações de tempo
         if ($('#progress-info').length === 0) {
-             $('.progress').after('<div id="progress-info" class="d-flex justify-content-between text-muted small mt-1"><span>Tempo: 00:00</span><span>Faltam: --:--</span></div>');
+            $('.progress').after('<div id="progress-info" class="d-flex justify-content-between text-muted small mt-1"><span>Tempo: 00:00</span><span>Faltam: --:--</span></div>');
         } else {
-             $('#progress-info').html('<span>Tempo: 00:00</span><span>Faltam: --:--</span>');
+            $('#progress-info').html('<span>Tempo: 00:00</span><span>Faltam: --:--</span>');
         }
     },
 
+    // --- Atualiza barra de progresso ---
     updateProgress: (percent, eta, elapsed) => {
         $('#progress-bar').css('width', percent + '%');
         $('#progress-percent').text(Math.round(percent) + '%');
-        
-        // Atualiza os tempos
-        // Se eta ou elapsed vierem vazios, usamos placeholders
+
+        // Atualiza tempos decorrido e restante
         const etaText = eta || '--:--';
         const elapsedText = elapsed || '00:00';
         
@@ -127,18 +141,19 @@ export const Ui = {
         `);
     },
 
+    // --- Finaliza barra de progresso ---
     finishProgressBar: () => {
         $('#progress-bar').removeClass('bg-danger').addClass('bg-success');
         $('#progress-percent').text('Concluído!');
         $('#progress-info').html('<span class="text-success fw-bold"><i class="fa-solid fa-check me-1"></i> Finalizado com sucesso!</span>');
         
+        // Esconde área após 1s
         setTimeout(() => {
             $('#progress-area').fadeOut();
-        }, 1000);
+        }, 10000);
     },
-    
-    // ...
 
+    // --- Renderiza lista de downloads ---
     renderDownloads: (files, highlightFirst = false) => {
         $('#downloads-list').html('');
         $('#featured-section').addClass('hidden');
@@ -148,6 +163,7 @@ export const Ui = {
             return;
         }
 
+        // Destaca primeiro download
         if (highlightFirst && files.length > 0) {
             const newest = files[0];
             const featuredHtml = `
@@ -170,6 +186,7 @@ export const Ui = {
             $('#featured-section').removeClass('hidden').hide().fadeIn();
         }
 
+        // Lista os downloads restantes em tabela
         const tableFiles = highlightFirst ? files.slice(1) : files;
         
         if (tableFiles.length > 0) {
@@ -203,12 +220,14 @@ export const Ui = {
         }
     },
 
+    // --- Abre o player de áudio ou vídeo ---
     openPlayer: (filename) => {
         const streamUrl = 'stream.php?file=' + encodeURIComponent(filename);
         const ext = filename.split('.').pop().toLowerCase();
         let playerHtml = '';
 
         if (['mp3', 'm4a', 'wav'].includes(ext)) {
+            // Áudio
             playerHtml = `
                 <div class="p-5">
                     <i class="fa-solid fa-music fa-4x text-info mb-4"></i>
@@ -219,6 +238,7 @@ export const Ui = {
                 </div>
             `;
         } else {
+            // Vídeo
             playerHtml = `
                 <video controls autoplay class="w-100" style="max-height: 70vh;">
                     <source src="${streamUrl}" type="video/mp4">
@@ -227,10 +247,14 @@ export const Ui = {
             `;
         }
 
+        // Insere player no modal
         $('#player-container').html(playerHtml);
         $('#playerTitle').text(filename);
+
         const myModal = new bootstrap.Modal(document.getElementById('playerModal'));
         myModal.show();
+
+        // Limpa conteúdo ao fechar
         $('#playerModal').on('hidden.bs.modal', function () {
             $('#player-container').html('');
         });
